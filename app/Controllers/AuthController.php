@@ -30,7 +30,7 @@ class AuthController extends BaseController
                 $password = $this->request->getVar('password');
 
                 //$dataUser = ['username' => 'april', 'password' => '202cb962ac59075b964b07152d234b70', 'role' => 'guest']; // passw 123
-                //$dataUser = ['username' => 'zahra', 'password' => '202cb962ac59075b964b07152d234b70', 'role' => 'admin']; //pass 123
+                //$dataUser = ['username' => 'kia', 'password' => '202cb962ac59075b964b07152d234b70', 'role' => 'admin']; //pass 123
                 $dataUser = $this->userModel ->where(['username' => $username])->first();
 
                 if ($dataUser) {
