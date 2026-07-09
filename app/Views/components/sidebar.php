@@ -4,7 +4,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link <?php echo (uri_string() == '') ? "" : "collapsed" ?>" href="/">
+            <a class="nav-link <?php echo (uri_string() == 'home') ? "" : "collapsed" ?>" href="home">
                 <i class="bi bi-grid"></i>
                 <span>Home</span>
             </a>
@@ -27,7 +27,13 @@
         <?php
         }
         ?> 
-        </li><!-- End Produk Nav -->
+        
+       <li class="nav-item">
+    <a class="nav-link <?php echo (uri_string() == 'history') ? "" : "collapsed" ?>" href="history">
+        <i class="bi bi-person"></i>
+        <span>History</span>
+    </a>
+</li><!-- End History Nav -->
         <li class="nav-item">
             <a class="nav-link <?php echo (uri_string() == 'contact') ? '' : 'collapsed' ?>" href="contact">
                 <i class="bi bi-envelope"></i>
