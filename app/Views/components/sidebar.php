@@ -27,7 +27,32 @@
         <?php
         }
         ?> 
+
+        <?php
+        if (session()->get('role') == 'admin') {
+        ?>
+        <li class="nav-item">
+            <a class="nav-link <?php echo (uri_string() == 'diskon') ? "" : "collapsed" ?>" href="diskon">
+                <i class="bi bi-percent"></i>
+                <span>Diskon</span>
+            </a>
+        </li>
+        <?php
+        }
+        ?>
         
+        <?php if(session()->get('role')=='admin'): ?>
+
+        <li class="nav-item">
+            <a class="nav-link <?= uri_string()=='pembelian' ? '' : 'collapsed' ?>"
+            href="<?= base_url('pembelian') ?>">
+                <i class="bi bi-cart-check"></i>
+                <span>Pembelian</span>
+            </a>
+        </li>
+
+        <?php endif; ?>
+
        <li class="nav-item">
     <a class="nav-link <?php echo (uri_string() == 'history') ? "" : "collapsed" ?>" href="history">
         <i class="bi bi-person"></i>

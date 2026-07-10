@@ -11,14 +11,6 @@ if (session()->getFlashData('success')) {
 }
 ?>
 
-<?php if ($discount): ?>
-    <div class="alert alert-success">
-        Hari ini ada diskon
-        <strong><?= number_to_currency($discount['nominal'], 'IDR') ?></strong>
-        per item.
-    </div>
-<?php endif; ?>
-
 <!-- Table with stripped rows -->
 <div class="row">
     <?php foreach ($products as $key => $item) : ?>     

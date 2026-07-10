@@ -1,3 +1,16 @@
+<?php
+helper('number');
+
+use App\Models\DiscountModel;
+
+$discountModel = new DiscountModel();
+
+$discount = $discountModel
+    ->where('tanggal', date('Y-m-d'))
+    ->first();
+
+?>
+  
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -16,7 +29,19 @@
       </form>
     </div><!-- End Search Bar -->
 
-    <nav class="header-nav ms-auto">
+<?php if ($discount): ?>
+
+<div class="mx-3">
+    <span class="badge bg-success p-2">
+        Hari ini ada diskon
+        <?= number_to_currency($discount['nominal'], 'IDR') ?>
+        per item
+    </span>
+</div>
+
+<?php endif; ?>
+
+<nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
         <li class="nav-item d-block d-lg-none">

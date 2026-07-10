@@ -10,6 +10,7 @@ use CodeIgniter\Router\RouteCollection;
 
 
 $routes->get('/', 'Home::index', ['filter' => 'auth']);
+$routes->get('home', 'Home::index', ['filter' => 'auth']);
 
 
 $routes->get('login', 'AuthController::login');
@@ -25,6 +26,12 @@ $routes->group('produk', ['filter' => 'auth'], function ($routes) {
     $routes->get('download', 'ProdukController::download');
 });
 
+$routes->group('diskon', ['filter' => 'auth'], function ($routes) {
+    $routes->get('', 'DiscountController::index');
+    $routes->post('', 'DiscountController::create');
+    $routes->post('edit/(:any)', 'DiscountController::edit/$1');
+    $routes->get('delete/(:any)', 'DiscountController::delete/$1');
+});
 
 $routes->group('keranjang', ['filter' => 'auth'], function ($routes) {
         //Rute ini digunakan untuk menampilkan isi keranjang belanja
@@ -43,6 +50,10 @@ $routes->group('keranjang', ['filter' => 'auth'], function ($routes) {
         $routes->get('clear', 'TransaksiController::cart_clear');
 });
 
+$routes->group('pembelian', ['filter' => 'role'], function ($routes) {
+    $routes->get('', 'PembelianController::index');
+    $routes->post('status/(:num)', 'PembelianController::status/$1');
+});
 
 $routes->get('checkout', 'TransaksiController::checkout', ['filter' => 'auth']);
 
@@ -54,5 +65,8 @@ $routes->get('ajax/destinations','TransaksiController::destinations', ['filter' 
 $routes->get('ajax/costs','TransaksiController::costs', ['filter' => 'auth']);
 
 $routes->resource('api/products', ['controller' => 'Api\ProdukController']);
+$routes->resource('api/discounts', [
+    'controller' => 'Api\DiscountController'
+]);
 
 $routes->get('api/transactions', 'Api\TransaksiController::index');

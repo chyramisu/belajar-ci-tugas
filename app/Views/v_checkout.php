@@ -72,9 +72,47 @@
       ?>
               <tr>
                   <td><?= $item['name'] ?></td>
-                  <td><?= number_to_currency($item['price'], 'IDR') ?></td>
+                  <td>
+                    <?php if ($discount): ?>
+
+                        <?php
+                        $hargaAsli = $item['price'] + $discount['nominal'];
+                        ?>
+
+                        <small class="text-danger">
+                            <del><?= number_to_currency($hargaAsli, 'IDR') ?></del>
+                        </small>
+                        <br>
+
+                        <?= number_to_currency($item['price'], 'IDR') ?>
+
+                    <?php else: ?>
+
+                        <?= number_to_currency($item['price'], 'IDR') ?>
+
+                    <?php endif; ?>
+                    </td>
                   <td><?= $item['qty'] ?></td>
-                  <td><?= number_to_currency($item['price'] * $item['qty'], 'IDR') ?></td>
+                  <td>
+                    <?php if ($discount): ?>
+
+                        <?php
+                        $subtotalAsli = ($item['price'] + $discount['nominal']) * $item['qty'];
+                        ?>
+
+                        <small class="text-danger">
+                            <del><?= number_to_currency($subtotalAsli, 'IDR') ?></del>
+                        </small>
+                        <br>
+
+                        <?= number_to_currency($item['subtotal'], 'IDR') ?>
+
+                    <?php else: ?>
+
+                        <?= number_to_currency($item['subtotal'], 'IDR') ?>
+
+                    <?php endif; ?>
+                    </td>
               </tr>
       <?php
           endforeach;

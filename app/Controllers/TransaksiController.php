@@ -8,12 +8,14 @@ use App\Services\RajaOngkirService;
 
 use App\Models\TransactionModel;
 use App\Models\TransactionDetailModel;
+use App\Models\DiscountModel;
 
 class TransaksiController extends BaseController
 {
     protected $cart;
     protected $transactionModel;
-protected $transactionDetailModel;
+    protected $transactionDetailModel;
+    protected $discountModel;
 
     public function __construct()
     {
@@ -21,16 +23,22 @@ protected $transactionDetailModel;
         $this->cart = service('cart');
         $this->transactionModel = new TransactionModel();
         $this->transactionDetailModel = new TransactionDetailModel(); 
+        $this->discountModel = new DiscountModel();
     }
 
     public function index()
-    {  
-        $data = [
-            'items' => $this->cart->contents(),
-            'total' => $this->cart->total()
-        ];
+    {
+    $discount = $this->discountModel
+        ->where('tanggal', date('Y-m-d'))
+        ->first();
 
-        return view('v_keranjang', $data);
+    $data = [
+        'items'     => $this->cart->contents(),
+        'total'     => $this->cart->total(),
+        'discount'  => $discount
+    ];
+
+    return view('v_keranjang', $data);
     }
 
     public function cart_add()
@@ -99,14 +107,18 @@ protected $transactionDetailModel;
     }
 
     public function checkout()
-    {  
-        
-        $data = [
-            'items' => $this->cart->contents(),
-            'total' => $this->cart->total() 
-        ];
+    {
+    $discount = $this->discountModel
+        ->where('tanggal', date('Y-m-d'))
+        ->first();
 
-        return view('v_checkout', $data);
+    $data = [
+        'items'     => $this->cart->contents(),
+        'total'     => $this->cart->total(),
+        'discount'  => $discount
+    ];
+
+    return view('v_checkout', $data);
     }
 
     public function destinations()
@@ -190,13 +202,18 @@ public function buy()
 
     $transactionId = $this->transactionModel->getInsertID();
 
+    $discount = $this->discountModel
+    ->where('tanggal', date('Y-m-d'))
+    ->first();
+
+    $nominalDiskon = $discount ? $discount['nominal'] : 0;
     // insert transaction detail
     foreach ($cartItems as $item) {
         $this->transactionDetailModel->insert([
             'transaction_id' => $transactionId,
             'product_id'     => $item['id'],
             'jumlah'         => $item['qty'],
-            'diskon'         => 0,
+            'diskon'         => $nominalDiskon,
             'subtotal_harga' => $item['qty'] * $item['price'] 
         ]);
     }
